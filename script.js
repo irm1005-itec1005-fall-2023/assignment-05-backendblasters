@@ -80,3 +80,42 @@ function inititialise() {
 //
 
 inititialise();
+document.addEventListener('DOMContentLoaded', function() {
+  const taskListSection = document.getElementById('task-list');
+  const addTaskForm = document.getElementById('add-task-form');
+  const calendarSection = document.getElementById('calendar');
+
+  addTaskForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const taskNameInput = document.getElementById('task-name');
+      const taskDateInput = document.getElementById('task-date');
+      const taskName = taskNameInput.value.trim();
+      const taskDate = taskDateInput.value;
+
+      if (taskName !== '' && taskDate !== '') {
+          addTask(taskName, taskDate);
+          taskNameInput.value = '';
+          taskDateInput.value = '';
+      }
+  });
+
+  function addTask(taskName, taskDate) {
+      const taskItem = document.createElement('div');
+      taskItem.classList.add('task-item');
+      taskItem.innerHTML = `<p>${taskName}</p><p>Date: ${taskDate}</p>`;
+      taskListSection.appendChild(taskItem);
+  }
+
+  
+  $('#calendar').fullCalendar({
+      header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,basicWeek,basicDay'
+      },
+      defaultDate: moment(),
+      editable: true,
+      events: [] 
+  });
+});
